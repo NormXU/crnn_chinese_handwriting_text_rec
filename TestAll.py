@@ -22,14 +22,17 @@ parser.add_argument('--images_path', type=str, default='test_images/test5.jpg', 
 opt = parser.parse_args()
 validation_pth = 'to_lmdb/test_width'
 # crnn params
-# 3p6m_third_ac97p8.pth
 crnn_model_path = 'trained_models/crnn_Rec_done_69_5000.pth'
+# crnn_model_path = 'trained_models/TrainedModuel_from_smaller_dataset/crnn_Rec_done_299_650.pth'
 alphabet = str1
 nclass = len(alphabet)+1
 Batch_Test_Flag = True
 
 path_prefix = 'to_lmdb/test_width/'
+#path_prefix = 'C:\\Users\\Nuo Xu\\Desktop\\WORK\\Intern\\Solution1\\TestDataset2\\'
+
 f = open('to_lmdb/test_width.txt', "r", encoding='utf-8')
+#f = open('C:\\Users\\Nuo Xu\\Desktop\\WORK\\Intern\\Solution1\\TestDataset2.txt', "r", encoding='utf-8')
 lines = f.readlines()
 f.close()
 
@@ -56,8 +59,7 @@ def crnn_recognition(imgpth, model, tesing_dataset, total_correct_num, total_str
     image = cropped_image.convert('L')
 
     ## 
-    w  = int(image.size[0] / (280 * 1.0 / 180))
-    # w = image.size[0]
+    w  = int(image.size[0] / (280 * 1.0 / 200))
     # w = int(image.size[0] / (32 * 1.0 / image.size[1]))
     transformer = dataset.resizeNormalize((w, 32))
     image = transformer(image)
@@ -88,9 +90,9 @@ def crnn_single_test(cropped_image, model):
     image = cropped_image.convert('L')
 
     ## 
-    w  = int(image.size[0] / (280 * 1.0 / 180))
+    # w  = int(image.size[0] / (280 * 1.0 / 180))
     # w = image.size[0]
-    # w = int(image.size[0] / (32 * 1.0 / image.size[1]))
+    w = int(image.size[0] / (32 * 1.0 / image.size[1]))
     transformer = dataset.resizeNormalize((w, 32))
     image = transformer(image)
     if torch.cuda.is_available():

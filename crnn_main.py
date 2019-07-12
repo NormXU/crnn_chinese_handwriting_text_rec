@@ -150,7 +150,7 @@ if __name__ == '__main__':
     else:
         sampler = None
 
-    # images will be resize to 32*160
+    # images will be resize to 32* W, we keep the maxmum ratio 
     train_loader = torch.utils.data.DataLoader(
         train_dataset, batch_size=params.batchSize,
         shuffle=True, sampler=sampler,
@@ -159,7 +159,7 @@ if __name__ == '__main__':
 
 
     # read test set
-    # images will be resize to 32*160
+    # images will be resize to 32* 320 ?
     test_dataset = dataset.lmdbDataset(
         root=args.valroot, transform=dataset.resizeNormalize((320, 32)))
 
@@ -168,7 +168,6 @@ if __name__ == '__main__':
 
     converter = utils.strLabelConverter(params.alphabet)
     criterion = CTCLoss()
-    #criterion = torch.nn.CTCLoss()
 
     # cnn and rnn
     image = torch.FloatTensor(params.batchSize, 3, params.imgH, params.imgH)
